@@ -1,0 +1,79 @@
+{
+  "entities": {
+    "Entry": {
+      "title": "Entry",
+      "description": "A financial transaction (credit or debit)",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "clienteId": { "type": "string" },
+        "placa": { "type": "string" },
+        "periodo": { "type": "string" },
+        "descricao": { "type": "string" },
+        "observacoes": { "type": "string" },
+        "valor": { "type": "number" },
+        "type": { "type": "string", "enum": ["credit", "debit"] },
+        "attachment": { "type": "object" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["userId", "clienteId", "placa", "periodo", "descricao", "valor", "type", "createdAt"]
+    },
+    "Vehicle": {
+      "title": "Vehicle",
+      "description": "A registered vehicle",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "placa": { "type": "string" },
+        "nome": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["userId", "placa", "nome", "createdAt"]
+    },
+    "Client": {
+      "title": "Client",
+      "description": "A registered client",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "nome": { "type": "string" },
+        "documento": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["userId", "nome", "documento", "createdAt"]
+    },
+    "Config": {
+      "title": "Config",
+      "description": "Company settings",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "cnpj": { "type": "string" },
+        "phone": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "address": { "type": "string" },
+        "layout": { "type": "string" }
+      },
+      "required": ["userId", "name", "cnpj", "address", "layout"]
+    }
+  },
+  "firestore": {
+    "users/{userId}/entries/{entryId}": {
+      "schema": { "$ref": "#/entities/Entry" },
+      "description": "Transactions belonging to a user"
+    },
+    "users/{userId}/vehicles/{vehicleId}": {
+      "schema": { "$ref": "#/entities/Vehicle" },
+      "description": "Vehicles registered by a user"
+    },
+    "users/{userId}/clients/{clientId}": {
+      "schema": { "$ref": "#/entities/Client" },
+      "description": "Clients registered by a user"
+    },
+    "users/{userId}/config/{configId}": {
+      "schema": { "$ref": "#/entities/Config" },
+      "description": "User configuration"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Sistema de Lançamentos",
+  "description": "Sistema de gerenciamento de lançamentos com relatórios, débito/crédito e cabeçalho customizável.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
