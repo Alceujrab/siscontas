@@ -52,14 +52,22 @@ export default function App() {
   const [editingEntryId, setEditingEntryId] = useState<string | null>(null);
 
   const addEntry = async (entry: Omit<Entry, 'id' | 'createdAt'>) => {
-    await dbAddEntry(entry);
-    setActiveTab('dashboard');
+    try {
+      await dbAddEntry(entry);
+      setActiveTab('dashboard');
+    } catch (err: any) {
+      alert("Erro ao adicionar: " + err.message);
+    }
   };
 
   const deleteEntry = async (id: string) => {
     if(confirm('Tem certeza que deseja excluir este lançamento?')) {
-      await dbDeleteEntry(id);
-      if (editingEntryId === id) setEditingEntryId(null);
+      try {
+        await dbDeleteEntry(id);
+        if (editingEntryId === id) setEditingEntryId(null);
+      } catch (err: any) {
+        alert("Erro ao deletar: " + err.message);
+      }
     }
   };
 
@@ -930,12 +938,16 @@ export default function App() {
         attachment: form.attachment
       };
 
-      if (editingEntry) {
-        dbUpdateEntry(editingEntry.id, newValues);
-        setEditingEntryId(null);
-        setActiveTab('dashboard');
-      } else {
-        addEntry(newValues);
+      try {
+        if (editingEntry) {
+          dbUpdateEntry(editingEntry.id, newValues);
+          setEditingEntryId(null);
+          setActiveTab('dashboard');
+        } else {
+          addEntry(newValues);
+        }
+      } catch (err: any) {
+        alert("Erro ao salvar lançamento: " + err.message);
       }
     };
 
@@ -1131,9 +1143,13 @@ export default function App() {
 
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
-      await updateConfig(form);
-      setSavedNotice(true);
-      setTimeout(() => setSavedNotice(false), 3000);
+      try {
+        await updateConfig(form);
+        setSavedNotice(true);
+        setTimeout(() => setSavedNotice(false), 3000);
+      } catch (err: any) {
+        alert("Erro ao salvar: " + err.message);
+      }
     };
 
     return (
@@ -1265,18 +1281,22 @@ export default function App() {
       const nome = newNome.trim();
       if (!placa || !nome) return;
       
-      if (editingId) {
-        await dbUpdateVehicle(editingId, { placa, nome });
-        setEditingId(null);
-      } else {
-        if (vehicles.some(v => v.placa === placa)) {
-          alert('Placa já cadastrada!');
-          return;
+      try {
+        if (editingId) {
+          await dbUpdateVehicle(editingId, { placa, nome });
+          setEditingId(null);
+        } else {
+          if (vehicles.some(v => v.placa === placa)) {
+            alert('Placa já cadastrada!');
+            return;
+          }
+          await dbAddVehicle({ placa, nome });
         }
-        await dbAddVehicle({ placa, nome });
+        setNewPlaca('');
+        setNewNome('');
+      } catch (err: any) {
+        alert("Erro ao salvar: " + err.message);
       }
-      setNewPlaca('');
-      setNewNome('');
     };
 
     const handleEdit = (v: Vehicle) => {
@@ -1406,14 +1426,18 @@ export default function App() {
       const documento = newDocumento.trim();
       if (!nome || !documento) return;
       
-      if (editingId) {
-        await dbUpdateClient(editingId, { nome, documento });
-        setEditingId(null);
-      } else {
-        await dbAddClient({ nome, documento });
+      try {
+        if (editingId) {
+          await dbUpdateClient(editingId, { nome, documento });
+          setEditingId(null);
+        } else {
+          await dbAddClient({ nome, documento });
+        }
+        setNewNome('');
+        setNewDocumento('');
+      } catch (err: any) {
+        alert("Erro ao salvar: " + err.message);
       }
-      setNewNome('');
-      setNewDocumento('');
     };
 
     const handleEdit = (c: Client) => {

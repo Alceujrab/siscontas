@@ -158,6 +158,7 @@ export function useAppFirestore() {
       });
     } catch (e) {
       handleFirestoreError(e, OperationType.CREATE, `users/${user.uid}/entries`);
+      throw e;
     }
   };
 
@@ -167,6 +168,7 @@ export function useAppFirestore() {
       await updateDoc(doc(db, `users/${user.uid}/entries`, id), entryData);
     } catch (e) {
       handleFirestoreError(e, OperationType.UPDATE, `users/${user.uid}/entries/${id}`);
+      throw e;
     }
   };
 
@@ -176,6 +178,7 @@ export function useAppFirestore() {
       await deleteDoc(doc(db, `users/${user.uid}/entries`, id));
     } catch (e) {
       handleFirestoreError(e, OperationType.DELETE, `users/${user.uid}/entries/${id}`);
+      throw e;
     }
   };
 
@@ -190,6 +193,7 @@ export function useAppFirestore() {
       });
     } catch (e) {
       handleFirestoreError(e, OperationType.CREATE, `users/${user.uid}/vehicles`);
+      throw e;
     }
   };
 
@@ -199,6 +203,7 @@ export function useAppFirestore() {
       await updateDoc(doc(db, `users/${user.uid}/vehicles`, id), vehicle);
     } catch (e) {
       handleFirestoreError(e, OperationType.UPDATE, `users/${user.uid}/vehicles/${id}`);
+      throw e;
     }
   };
 
@@ -208,6 +213,7 @@ export function useAppFirestore() {
       await deleteDoc(doc(db, `users/${user.uid}/vehicles`, id));
     } catch (e) {
       handleFirestoreError(e, OperationType.DELETE, `users/${user.uid}/vehicles/${id}`);
+      throw e;
     }
   };
 
@@ -222,6 +228,7 @@ export function useAppFirestore() {
       });
     } catch (e) {
       handleFirestoreError(e, OperationType.CREATE, `users/${user.uid}/clients`);
+      throw e;
     }
   };
 
@@ -231,6 +238,7 @@ export function useAppFirestore() {
       await updateDoc(doc(db, `users/${user.uid}/clients`, id), client);
     } catch (e) {
       handleFirestoreError(e, OperationType.UPDATE, `users/${user.uid}/clients/${id}`);
+      throw e;
     }
   };
 
@@ -240,6 +248,7 @@ export function useAppFirestore() {
       await deleteDoc(doc(db, `users/${user.uid}/clients`, id));
     } catch (e) {
       handleFirestoreError(e, OperationType.DELETE, `users/${user.uid}/clients/${id}`);
+      throw e;
     }
   };
 
